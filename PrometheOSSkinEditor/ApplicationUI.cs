@@ -11,6 +11,17 @@ namespace PrometheOSSkinEditor
 {
     public unsafe class ApplicationUI
     {
+        enum PreviewModeEnum
+        {
+            General_1 = 0,
+            General_2 = 1,
+            Led_1 = 2,
+            Led_2 = 3,
+            Led_3 = 4,
+            Led_4 = 5,
+            Snake = 6
+        }
+
         private Window m_window;
         private PathPicker? m_backgroundFileOpenPicker;
         private PathPicker? m_themeFileOpenPicker;
@@ -20,7 +31,7 @@ namespace PrometheOSSkinEditor
         private Theme m_theme = new();
         private bool m_showSplash = true;
         private string m_version;
-        private uint m_previewMode = 0;
+        private PreviewModeEnum m_previewMode = PreviewModeEnum.General_1;
 
         private int m_backgroundTexture = 0;
         private byte[] m_backgroundData = Array.Empty<byte>();
@@ -362,7 +373,7 @@ namespace PrometheOSSkinEditor
 
             DrawPanel(new Vector2(16, 16), new Vector2(688, 448), m_theme.PANEL_FILL_COLOR, m_theme.PANEL_STROKE_COLOR);
 
-            if (m_previewMode == 0)
+            if (m_previewMode == PreviewModeEnum.General_1)
             {
                 DrawAllignedText(new Vector2(40, m_theme.PROMETHEOS_Y), 640, m_theme.PROMETHEOS_ALIGN, "PROMETHEOS", 5, m_theme.PROMETHEOS_COLOR);
 
@@ -373,7 +384,7 @@ namespace PrometheOSSkinEditor
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Text Button", m_theme.TEXT_PANEL_FILL_COLOR, m_theme.TEXT_PANEL_STROKE_COLOR, m_theme.TEXT_PANEL_TEXT_COLOR);
                 DrawButton(new Vector2(260, 325 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Text Button Hover", m_theme.TEXT_PANEL_HOVER_FILL_COLOR, m_theme.TEXT_PANEL_HOVER_STROKE_COLOR, m_theme.TEXT_PANEL_HOVER_TEXT_COLOR);
             }
-            else if (m_previewMode == 1)
+            else if (m_previewMode == PreviewModeEnum.General_2)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -382,7 +393,7 @@ namespace PrometheOSSkinEditor
                 DrawAllignedText(new Vector2(260, 235 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text", 2, m_theme.TEXT_COLOR);
                 DrawAllignedText(new Vector2(260, 275 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text Disabled", 2, m_theme.TEXT_DISABLED_COLOR);
             }
-            else if (m_previewMode == 2)
+            else if (m_previewMode == PreviewModeEnum.Led_1)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -391,7 +402,7 @@ namespace PrometheOSSkinEditor
                 DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Red", m_theme.BUTTON_LED_RED_FILL_COLOR, m_theme.BUTTON_LED_RED_STROKE_COLOR, m_theme.BUTTON_LED_RED_TEXT_COLOR);
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Red Hover", m_theme.BUTTON_LED_RED_HOVER_FILL_COLOR, m_theme.BUTTON_LED_RED_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_RED_HOVER_TEXT_COLOR);
             }
-            else if (m_previewMode == 3)
+            else if (m_previewMode == PreviewModeEnum.Led_2)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -400,7 +411,7 @@ namespace PrometheOSSkinEditor
                 DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Yellow", m_theme.BUTTON_LED_YELLOW_FILL_COLOR, m_theme.BUTTON_LED_YELLOW_STROKE_COLOR, m_theme.BUTTON_LED_YELLOW_TEXT_COLOR);
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Yellow Hover", m_theme.BUTTON_LED_YELLOW_HOVER_FILL_COLOR, m_theme.BUTTON_LED_YELLOW_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_YELLOW_HOVER_TEXT_COLOR);
             }
-            else if (m_previewMode == 4)
+            else if (m_previewMode == PreviewModeEnum.Led_3)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -409,7 +420,7 @@ namespace PrometheOSSkinEditor
                 DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Purple", m_theme.BUTTON_LED_PURPLE_FILL_COLOR, m_theme.BUTTON_LED_PURPLE_STROKE_COLOR, m_theme.BUTTON_LED_PURPLE_TEXT_COLOR);
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Purple Hover", m_theme.BUTTON_LED_PURPLE_HOVER_FILL_COLOR, m_theme.BUTTON_LED_PURPLE_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_PURPLE_HOVER_TEXT_COLOR);
             }
-            else if (m_previewMode == 5)
+            else if (m_previewMode == PreviewModeEnum.Led_4)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -418,7 +429,7 @@ namespace PrometheOSSkinEditor
                 DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED White", m_theme.BUTTON_LED_WHITE_FILL_COLOR, m_theme.BUTTON_LED_WHITE_STROKE_COLOR, m_theme.BUTTON_LED_WHITE_TEXT_COLOR);
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED White Hover", m_theme.BUTTON_LED_WHITE_HOVER_FILL_COLOR, m_theme.BUTTON_LED_WHITE_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_WHITE_HOVER_TEXT_COLOR);
             }
-            else if (m_previewMode == 6)
+            else if (m_previewMode == PreviewModeEnum.Snake)
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
 
@@ -463,16 +474,16 @@ namespace PrometheOSSkinEditor
             DrawAllignedText(new Vector2(40, m_theme.FOOTER_Y), 640, Alignment.Right, "Footer Text", 2, m_theme.FOOTER_TEXT_COLOR);
 
             ImGui.SetCursorPos(new Vector2(730, 10));
-            ImGui.BeginChild(2, new Vector2(280, 482), true, ImGuiWindowFlags.AlwaysUseWindowPadding);
+            ImGui.BeginChild(2, new Vector2(280, 484), true, ImGuiWindowFlags.AlwaysUseWindowPadding);
 
-            string[] previewModeValues = new string[] { "General 1", "General 2", "Led 1", "Led 2", "Led 3", "Led 4", "Snake" };
+            string[] previewModeValues = Enum.GetNames(typeof(PreviewModeEnum)).Select(s => s.Replace("_", " ")).ToArray();
 
             var previewMode = (int)m_previewMode;
             ImGui.Text("Preview Mode:");
             ImGui.PushItemWidth(250);
             ImGui.Combo("##previewMode", ref previewMode, previewModeValues, previewModeValues.Length);
             ImGui.PopItemWidth();
-            m_previewMode = (uint)previewMode;
+            m_previewMode = (PreviewModeEnum)previewMode;
 
             ImGui.Spacing();
             ImGui.Separator();
@@ -527,33 +538,39 @@ namespace PrometheOSSkinEditor
 
             string[] alignmentValues = new string[] { "Left", "Center", "Right" };
 
-            var prometheosAlign = (int)m_theme.PROMETHEOS_ALIGN;
-            ImGui.Text("PrometheOS Align:");
-            ImGui.PushItemWidth(250);
-            ImGui.Combo("##prometheosAlign", ref prometheosAlign, alignmentValues, alignmentValues.Length);
-            ImGui.PopItemWidth();
-            m_theme.PROMETHEOS_ALIGN = (Alignment)prometheosAlign;
+            if (m_previewMode == PreviewModeEnum.General_1)
+            {
+                var prometheosAlign = (int)m_theme.PROMETHEOS_ALIGN;
+                ImGui.Text("PrometheOS Align:");
+                ImGui.PushItemWidth(250);
+                ImGui.Combo("##prometheosAlign", ref prometheosAlign, alignmentValues, alignmentValues.Length);
+                ImGui.PopItemWidth();
+                m_theme.PROMETHEOS_ALIGN = (Alignment)prometheosAlign;
 
-            var prometheosY = (int)m_theme.PROMETHEOS_Y;
-            ImGui.Text("PrometheOS Y:");
-            ImGui.PushItemWidth(250);
-            ImGui.InputInt("##prometheosY", ref prometheosY, 1, 5, ImGuiInputTextFlags.CharsDecimal);
-            ImGui.PopItemWidth();
-            m_theme.PROMETHEOS_Y =  (uint)Math.Min(Math.Max(prometheosY, 0), 480);
+                var prometheosY = (int)m_theme.PROMETHEOS_Y;
+                ImGui.Text("PrometheOS Y:");
+                ImGui.PushItemWidth(250);
+                ImGui.InputInt("##prometheosY", ref prometheosY, 1, 5, ImGuiInputTextFlags.CharsDecimal);
+                ImGui.PopItemWidth();
+                m_theme.PROMETHEOS_Y = (uint)Math.Min(Math.Max(prometheosY, 0), 480);
+            }
 
-            var headerAlign = (int)m_theme.HEADER_ALIGN;
-            ImGui.Text("Header Align:");
-            ImGui.PushItemWidth(250);
-            ImGui.Combo("##headerAlign", ref headerAlign, alignmentValues, alignmentValues.Length);
-            ImGui.PopItemWidth();
-            m_theme.HEADER_ALIGN = (Alignment)headerAlign;
+            if (m_previewMode != PreviewModeEnum.General_1)
+            {
+                var headerAlign = (int)m_theme.HEADER_ALIGN;
+                ImGui.Text("Header Align:");
+                ImGui.PushItemWidth(250);
+                ImGui.Combo("##headerAlign", ref headerAlign, alignmentValues, alignmentValues.Length);
+                ImGui.PopItemWidth();
+                m_theme.HEADER_ALIGN = (Alignment)headerAlign;
 
-            var headerY = (int)m_theme.HEADER_Y;
-            ImGui.Text("Header Y:");
-            ImGui.PushItemWidth(250);
-            ImGui.InputInt("##headerY", ref headerY, 1, 5, ImGuiInputTextFlags.CharsDecimal);
-            ImGui.PopItemWidth();
-            m_theme.HEADER_Y = (uint)Math.Min(Math.Max(headerY, 0), 480);
+                var headerY = (int)m_theme.HEADER_Y;
+                ImGui.Text("Header Y:");
+                ImGui.PushItemWidth(250);
+                ImGui.InputInt("##headerY", ref headerY, 1, 5, ImGuiInputTextFlags.CharsDecimal);
+                ImGui.PopItemWidth();
+                m_theme.HEADER_Y = (uint)Math.Min(Math.Max(headerY, 0), 480);
+            }
 
             var centerOffset = m_theme.CENTER_OFFSET;
             ImGui.Text("Center Offset:");
@@ -572,43 +589,56 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
-            var prometheosColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.PROMETHEOS_COLOR));
-            ImGui.Text("PrometheOS Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##prometheosColor", ref prometheosColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.PROMETHEOS_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(prometheosColor));
+            if (m_previewMode == PreviewModeEnum.General_1 || m_previewMode == PreviewModeEnum.General_2)
+            {
+                if (m_previewMode == PreviewModeEnum.General_1)
+                {
+                    var prometheosColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.PROMETHEOS_COLOR));
+                    ImGui.Text("PrometheOS Color:");
+                    ImGui.PushItemWidth(250);
+                    ImGui.ColorEdit4("##prometheosColor", ref prometheosColor, ImGuiColorEditFlags.AlphaBar);
+                    ImGui.PopItemWidth();
+                    m_theme.PROMETHEOS_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(prometheosColor));
+                }
+                if (m_previewMode == PreviewModeEnum.General_2)
+                {
+                    var installerColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.INSTALLER_COLOR));
+                    ImGui.Text("Installer Color:");
+                    ImGui.PushItemWidth(250);
+                    ImGui.ColorEdit4("##installerColor", ref installerColor, ImGuiColorEditFlags.AlphaBar);
+                    ImGui.PopItemWidth();
+                    m_theme.INSTALLER_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(installerColor));
+                }
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
 
-            var installerColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.INSTALLER_COLOR));
-            ImGui.Text("Installer Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##installerColor", ref installerColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.INSTALLER_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(installerColor));
+            if (m_previewMode == PreviewModeEnum.General_2)
+            {
+                var textColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_COLOR));
+                ImGui.Text("Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textColor", ref textColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textColor));
 
-            ImGui.Spacing();
-            ImGui.Separator();
+                var textDisabledColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_DISABLED_COLOR));
+                ImGui.Text("Text Disabled Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textDisabledColor", ref textDisabledColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_DISABLED_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textDisabledColor));
+            }
 
-            var textColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_COLOR));
-            ImGui.Text("Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textColor", ref textColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textColor));
-
-            var textDisabledColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_DISABLED_COLOR));
-            ImGui.Text("Text Disabled Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textDisabledColor", ref textDisabledColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_DISABLED_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textDisabledColor));
-
-            var titleTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TITLE_TEXT_COLOR));
-            ImGui.Text("Title Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##titleTextColor", ref titleTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TITLE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(titleTextColor));
+            if (m_previewMode != PreviewModeEnum.General_1)
+            {
+                var titleTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TITLE_TEXT_COLOR));
+                ImGui.Text("Title Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##titleTextColor", ref titleTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TITLE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(titleTextColor));
+            }
 
             var footerTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.FOOTER_TEXT_COLOR));
             ImGui.Text("Footer Text Color:");
@@ -620,101 +650,104 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
-            var butonActiveFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_FILL_COLOR));
-            ImGui.Text("Button Active Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveFillColor", ref butonActiveFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveFillColor));
+            if (m_previewMode == PreviewModeEnum.General_1)
+            {
+                var butonActiveFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_FILL_COLOR));
+                ImGui.Text("Button Active Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveFillColor", ref butonActiveFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveFillColor));
 
-            var butonActiveStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_STROKE_COLOR));
-            ImGui.Text("Button Active Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveStrokeColor", ref butonActiveFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveStrokeColor));
+                var butonActiveStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_STROKE_COLOR));
+                ImGui.Text("Button Active Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveStrokeColor", ref butonActiveStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveStrokeColor));
 
-            var butonActiveTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_TEXT_COLOR));
-            ImGui.Text("Button Active Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveTextColor", ref butonActiveTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveTextColor));
+                var butonActiveTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_TEXT_COLOR));
+                ImGui.Text("Button Active Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveTextColor", ref butonActiveTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveTextColor));
 
-            ImGui.Spacing();
-            ImGui.Separator();
+                ImGui.Spacing();
+                ImGui.Separator();
 
-            var butonActiveHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Active Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveHoverFillColor", ref butonActiveHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverFillColor));
+                var butonActiveHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Active Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveHoverFillColor", ref butonActiveHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverFillColor));
 
-            var butonActiveHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Active Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveStrokeColor", ref butonActiveHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverStrokeColor));
+                var butonActiveHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Active Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveHoverStrokeColor", ref butonActiveHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverStrokeColor));
 
-            var butonActiveHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Active Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonActiveHoverTextColor", ref butonActiveHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_ACTIVE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverTextColor));
+                var butonActiveHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_ACTIVE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Active Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonActiveHoverTextColor", ref butonActiveHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_ACTIVE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonActiveHoverTextColor));
 
-            ImGui.Spacing();
-            ImGui.Separator();
+                ImGui.Spacing();
+                ImGui.Separator();
 
-            var butonInactiveFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_FILL_COLOR));
-            ImGui.Text("Button Inactive Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveFillColor", ref butonInactiveFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveFillColor));
+                var butonInactiveFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_FILL_COLOR));
+                ImGui.Text("Button Inactive Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveFillColor", ref butonInactiveFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveFillColor));
 
-            var butonInactiveStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_STROKE_COLOR));
-            ImGui.Text("Button Inactive Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveStrokeColor", ref butonInactiveFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveStrokeColor));
+                var butonInactiveStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_STROKE_COLOR));
+                ImGui.Text("Button Inactive Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveStrokeColor", ref butonInactiveStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveStrokeColor));
 
-            var butonInactiveTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_TEXT_COLOR));
-            ImGui.Text("Button Inactive Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveTextColor", ref butonInactiveTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveTextColor));
+                var butonInactiveTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_TEXT_COLOR));
+                ImGui.Text("Button Inactive Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveTextColor", ref butonInactiveTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveTextColor));
 
-            ImGui.Spacing();
-            ImGui.Separator();
+                ImGui.Spacing();
+                ImGui.Separator();
 
-            var butonInactiveHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Inactive Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveHoverFillColor", ref butonInactiveHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverFillColor));
+                var butonInactiveHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Inactive Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveHoverFillColor", ref butonInactiveHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverFillColor));
 
-            var butonInactiveHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Inactive Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveStrokeColor", ref butonInactiveHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverStrokeColor));
+                var butonInactiveHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Inactive Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveHoverStrokeColor", ref butonInactiveHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverStrokeColor));
 
-            var butonInactiveHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Inactive Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##butonInactiveHoverTextColor", ref butonInactiveHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverTextColor));
+                var butonInactiveHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Inactive Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##butonInactiveHoverTextColor", ref butonInactiveHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(butonInactiveHoverTextColor));
 
-            ImGui.Spacing();
-            ImGui.Separator();
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
 
             var panelFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.PANEL_FILL_COLOR));
             ImGui.Text("Panel Fill Color:");
@@ -733,468 +766,487 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
-            var textPanelFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_FILL_COLOR));
-            ImGui.Text("Text Panel Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelFillColor", ref textPanelFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelFillColor));
-
-            var textPanelStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_STROKE_COLOR));
-            ImGui.Text("Text Panel Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelStrokeColor", ref textPanelStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelStrokeColor));
-
-            var textPanelTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_TEXT_COLOR));
-            ImGui.Text("Text Panel Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelTextColor", ref textPanelTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var textPanelHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_FILL_COLOR));
-            ImGui.Text("Text Panel Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelHoverFillColor", ref textPanelHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverFillColor));
-
-            var textPanelHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_STROKE_COLOR));
-            ImGui.Text("Text Panel Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelHoverStrokeColor", ref textPanelHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverStrokeColor));
-
-            var textPanelHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_TEXT_COLOR));
-            ImGui.Text("Text Panel Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##textPanelHoverTextColor", ref textPanelHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.TEXT_PANEL_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedOffFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_FILL_COLOR));
-            ImGui.Text("Button Led Off Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffFillColor", ref buttonLedOffFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffFillColor));
-
-            var buttonLedOffStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_STROKE_COLOR));
-            ImGui.Text("Button Led Off Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffStrokeColor", ref buttonLedOffStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffStrokeColor));
-
-            var buttonLedOffTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_TEXT_COLOR));
-            ImGui.Text("Button Led Off Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffTextColor", ref buttonLedOffTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedOffHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Off Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffHoverFillColor", ref buttonLedOffHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverFillColor));
-
-            var buttonLedOffHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Off Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffHoverStrokeColor", ref buttonLedOffHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverStrokeColor));
-
-            var buttonLedOffHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Off Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedOffHoverTextColor", ref buttonLedOffHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_OFF_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedRedFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_FILL_COLOR));
-            ImGui.Text("Button Led Red Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedFillColor", ref buttonLedRedFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedFillColor));
-
-            var buttonLedRedStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_STROKE_COLOR));
-            ImGui.Text("Button Led Red Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedStrokeColor", ref buttonLedRedStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedStrokeColor));
-
-            var buttonLedRedTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_TEXT_COLOR));
-            ImGui.Text("Button Led Red Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedTextColor", ref buttonLedRedTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedRedHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Red Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedHoverFillColor", ref buttonLedRedHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverFillColor));
-
-            var buttonLedRedHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Red Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedHoverStrokeColor", ref buttonLedRedHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverStrokeColor));
-
-            var buttonLedRedHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Red Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedRedHoverTextColor", ref buttonLedRedHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_RED_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedGreenFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_FILL_COLOR));
-            ImGui.Text("Button Led Green Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenFillColor", ref buttonLedGreenFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenFillColor));
-
-            var buttonLedGreenStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_STROKE_COLOR));
-            ImGui.Text("Button Led Green Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenStrokeColor", ref buttonLedGreenStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenStrokeColor));
-
-            var buttonLedGreenTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_TEXT_COLOR));
-            ImGui.Text("Button Led Green Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenTextColor", ref buttonLedGreenTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedGreenHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Green Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenHoverFillColor", ref buttonLedGreenHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverFillColor));
-
-            var buttonLedGreenHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Green Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenHoverStrokeColor", ref buttonLedGreenHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverStrokeColor));
-
-            var buttonLedGreenHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Green Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedGreenHoverTextColor", ref buttonLedGreenHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_GREEN_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverTextColor));
-            
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedYellowFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_FILL_COLOR));
-            ImGui.Text("Button Led Yellow Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowFillColor", ref buttonLedYellowFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowFillColor));
-
-            var buttonLedYellowStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_STROKE_COLOR));
-            ImGui.Text("Button Led Yellow Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowStrokeColor", ref buttonLedYellowStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowStrokeColor));
-
-            var buttonLedYellowTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_TEXT_COLOR));
-            ImGui.Text("Button Led Yellow Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowTextColor", ref buttonLedYellowTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedYellowHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Yellow Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowHoverFillColor", ref buttonLedYellowHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverFillColor));
-
-            var buttonLedYellowHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Yellow Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowHoverStrokeColor", ref buttonLedYellowHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverStrokeColor));
-
-            var buttonLedYellowHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Yellow Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedYellowHoverTextColor", ref buttonLedYellowHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_YELLOW_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedBlueFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_FILL_COLOR));
-            ImGui.Text("Button Led Blue Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueFillColor", ref buttonLedBlueFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueFillColor));
-
-            var buttonLedBlueStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_STROKE_COLOR));
-            ImGui.Text("Button Led Blue Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueStrokeColor", ref buttonLedBlueStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueStrokeColor));
-
-            var buttonLedBlueTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_TEXT_COLOR));
-            ImGui.Text("Button Led Blue Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueTextColor", ref buttonLedBlueTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedBlueHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Blue Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueHoverFillColor", ref buttonLedBlueHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverFillColor));
-
-            var buttonLedBlueHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Blue Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueHoverStrokeColor", ref buttonLedBlueHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverStrokeColor));
-
-            var buttonLedBlueHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Blue Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedBlueHoverTextColor", ref buttonLedBlueHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_BLUE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedPurpleFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_FILL_COLOR));
-            ImGui.Text("Button Led Purple Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleFillColor", ref buttonLedPurpleFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleFillColor));
-
-            var buttonLedPurpleStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_STROKE_COLOR));
-            ImGui.Text("Button Led Purple Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleStrokeColor", ref buttonLedPurpleStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleStrokeColor));
-
-            var buttonLedPurpleTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_TEXT_COLOR));
-            ImGui.Text("Button Led Purple Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleTextColor", ref buttonLedPurpleTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedPurpleHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Purple Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleHoverFillColor", ref buttonLedPurpleHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverFillColor));
-
-            var buttonLedPurpleHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Purple Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleHoverStrokeColor", ref buttonLedPurpleHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverStrokeColor));
-
-            var buttonLedPurpleHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Purple Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedPurpleHoverTextColor", ref buttonLedPurpleHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_PURPLE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedTurquoiseFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_FILL_COLOR));
-            ImGui.Text("Button Led Turquoise Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseFillColor", ref buttonLedTurquoiseFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseFillColor));
-
-            var buttonLedTurquoiseStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_STROKE_COLOR));
-            ImGui.Text("Button Led Turquoise Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseStrokeColor", ref buttonLedTurquoiseStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseStrokeColor));
-
-            var buttonLedTurquoiseTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_TEXT_COLOR));
-            ImGui.Text("Button Led Turquoise Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseTextColor", ref buttonLedTurquoiseTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedTurquoiseHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led Turquoise Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseHoverFillColor", ref buttonLedTurquoiseHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverFillColor));
-
-            var buttonLedTurquoiseHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led Turquoise Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseHoverStrokeColor", ref buttonLedTurquoiseHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverStrokeColor));
-
-            var buttonLedTurquoiseHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led Turquoise Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedTurquoiseHoverTextColor", ref buttonLedTurquoiseHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_TURQUOISE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedWhiteFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_FILL_COLOR));
-            ImGui.Text("Button Led White Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteFillColor", ref buttonLedWhiteFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteFillColor));
-
-            var buttonLedWhiteStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_STROKE_COLOR));
-            ImGui.Text("Button Led White Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteStrokeColor", ref buttonLedWhiteStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteStrokeColor));
-
-            var buttonLedWhiteTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_TEXT_COLOR));
-            ImGui.Text("Button Led White Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteTextColor", ref buttonLedWhiteTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var buttonLedWhiteHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_FILL_COLOR));
-            ImGui.Text("Button Led White Hover Fill Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteHoverFillColor", ref buttonLedWhiteHoverFillColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverFillColor));
-
-            var buttonLedWhiteHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_STROKE_COLOR));
-            ImGui.Text("Button Led White Hover Stroke Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteHoverStrokeColor", ref buttonLedWhiteHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverStrokeColor));
-
-            var buttonLedWhiteHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_TEXT_COLOR));
-            ImGui.Text("Button Led White Hover Text Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##buttonLedWhiteHoverTextColor", ref buttonLedWhiteHoverTextColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.BUTTON_LED_WHITE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverTextColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
-
-            var snakeWallColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_WALL_COLOR));
-            ImGui.Text("Snake Wall Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##snakeWallColor", ref snakeWallColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.SNAKE_WALL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeWallColor));
-
-            var snakeFoodColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_FOOD_COLOR));
-            ImGui.Text("Snake Food Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##snakeFoodColor", ref snakeFoodColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.SNAKE_FOOD_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeFoodColor));
-
-            var snakeHeadColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_HEAD_COLOR));
-            ImGui.Text("Snake Head Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##snakeHeadColor", ref snakeHeadColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.SNAKE_HEAD_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeHeadColor));
-
-            var snakeTailColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_TAIL_COLOR));
-            ImGui.Text("Snake Tail Color:");
-            ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##snakeTailColor", ref snakeTailColor, ImGuiColorEditFlags.AlphaBar);
-            ImGui.PopItemWidth();
-            m_theme.SNAKE_TAIL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeTailColor));
-
-            ImGui.Spacing();
-            ImGui.Separator();
+            if (m_previewMode == PreviewModeEnum.General_1)
+            {
+                var textPanelFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_FILL_COLOR));
+                ImGui.Text("Text Panel Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelFillColor", ref textPanelFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelFillColor));
+
+                var textPanelStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_STROKE_COLOR));
+                ImGui.Text("Text Panel Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelStrokeColor", ref textPanelStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelStrokeColor));
+
+                var textPanelTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_TEXT_COLOR));
+                ImGui.Text("Text Panel Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelTextColor", ref textPanelTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var textPanelHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_FILL_COLOR));
+                ImGui.Text("Text Panel Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelHoverFillColor", ref textPanelHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverFillColor));
+
+                var textPanelHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_STROKE_COLOR));
+                ImGui.Text("Text Panel Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelHoverStrokeColor", ref textPanelHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverStrokeColor));
+
+                var textPanelHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TEXT_PANEL_HOVER_TEXT_COLOR));
+                ImGui.Text("Text Panel Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##textPanelHoverTextColor", ref textPanelHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.TEXT_PANEL_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(textPanelHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
+
+            if (m_previewMode == PreviewModeEnum.Led_1)
+            {
+                var buttonLedOffFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_FILL_COLOR));
+                ImGui.Text("Button Led Off Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffFillColor", ref buttonLedOffFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffFillColor));
+
+                var buttonLedOffStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_STROKE_COLOR));
+                ImGui.Text("Button Led Off Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffStrokeColor", ref buttonLedOffStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffStrokeColor));
+
+                var buttonLedOffTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_TEXT_COLOR));
+                ImGui.Text("Button Led Off Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffTextColor", ref buttonLedOffTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedOffHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Off Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffHoverFillColor", ref buttonLedOffHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverFillColor));
+
+                var buttonLedOffHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Off Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffHoverStrokeColor", ref buttonLedOffHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverStrokeColor));
+
+                var buttonLedOffHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_OFF_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Off Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedOffHoverTextColor", ref buttonLedOffHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_OFF_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedOffHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+
+                var buttonLedRedFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_FILL_COLOR));
+                ImGui.Text("Button Led Red Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedFillColor", ref buttonLedRedFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedFillColor));
+
+                var buttonLedRedStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_STROKE_COLOR));
+                ImGui.Text("Button Led Red Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedStrokeColor", ref buttonLedRedStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedStrokeColor));
+
+                var buttonLedRedTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_TEXT_COLOR));
+                ImGui.Text("Button Led Red Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedTextColor", ref buttonLedRedTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedRedHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Red Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedHoverFillColor", ref buttonLedRedHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverFillColor));
+
+                var buttonLedRedHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Red Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedHoverStrokeColor", ref buttonLedRedHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverStrokeColor));
+
+                var buttonLedRedHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_RED_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Red Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedRedHoverTextColor", ref buttonLedRedHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_RED_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedRedHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
+
+            if (m_previewMode == PreviewModeEnum.Led_2)
+            {
+                var buttonLedGreenFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_FILL_COLOR));
+                ImGui.Text("Button Led Green Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenFillColor", ref buttonLedGreenFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenFillColor));
+
+                var buttonLedGreenStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_STROKE_COLOR));
+                ImGui.Text("Button Led Green Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenStrokeColor", ref buttonLedGreenStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenStrokeColor));
+
+                var buttonLedGreenTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_TEXT_COLOR));
+                ImGui.Text("Button Led Green Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenTextColor", ref buttonLedGreenTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedGreenHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Green Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenHoverFillColor", ref buttonLedGreenHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverFillColor));
+
+                var buttonLedGreenHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Green Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenHoverStrokeColor", ref buttonLedGreenHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverStrokeColor));
+
+                var buttonLedGreenHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_GREEN_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Green Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedGreenHoverTextColor", ref buttonLedGreenHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_GREEN_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedGreenHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedYellowFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_FILL_COLOR));
+                ImGui.Text("Button Led Yellow Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowFillColor", ref buttonLedYellowFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowFillColor));
+
+                var buttonLedYellowStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_STROKE_COLOR));
+                ImGui.Text("Button Led Yellow Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowStrokeColor", ref buttonLedYellowStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowStrokeColor));
+
+                var buttonLedYellowTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_TEXT_COLOR));
+                ImGui.Text("Button Led Yellow Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowTextColor", ref buttonLedYellowTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedYellowHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Yellow Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowHoverFillColor", ref buttonLedYellowHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverFillColor));
+
+                var buttonLedYellowHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Yellow Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowHoverStrokeColor", ref buttonLedYellowHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverStrokeColor));
+
+                var buttonLedYellowHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_YELLOW_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Yellow Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedYellowHoverTextColor", ref buttonLedYellowHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_YELLOW_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedYellowHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
+
+            if (m_previewMode == PreviewModeEnum.Led_3)
+            {
+                var buttonLedBlueFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_FILL_COLOR));
+                ImGui.Text("Button Led Blue Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueFillColor", ref buttonLedBlueFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueFillColor));
+
+                var buttonLedBlueStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_STROKE_COLOR));
+                ImGui.Text("Button Led Blue Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueStrokeColor", ref buttonLedBlueStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueStrokeColor));
+
+                var buttonLedBlueTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_TEXT_COLOR));
+                ImGui.Text("Button Led Blue Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueTextColor", ref buttonLedBlueTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedBlueHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Blue Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueHoverFillColor", ref buttonLedBlueHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverFillColor));
+
+                var buttonLedBlueHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Blue Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueHoverStrokeColor", ref buttonLedBlueHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverStrokeColor));
+
+                var buttonLedBlueHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_BLUE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Blue Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedBlueHoverTextColor", ref buttonLedBlueHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_BLUE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedBlueHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedPurpleFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_FILL_COLOR));
+                ImGui.Text("Button Led Purple Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleFillColor", ref buttonLedPurpleFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleFillColor));
+
+                var buttonLedPurpleStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_STROKE_COLOR));
+                ImGui.Text("Button Led Purple Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleStrokeColor", ref buttonLedPurpleStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleStrokeColor));
+
+                var buttonLedPurpleTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_TEXT_COLOR));
+                ImGui.Text("Button Led Purple Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleTextColor", ref buttonLedPurpleTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedPurpleHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Purple Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleHoverFillColor", ref buttonLedPurpleHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverFillColor));
+
+                var buttonLedPurpleHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Purple Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleHoverStrokeColor", ref buttonLedPurpleHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverStrokeColor));
+
+                var buttonLedPurpleHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_PURPLE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Purple Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedPurpleHoverTextColor", ref buttonLedPurpleHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_PURPLE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedPurpleHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
+
+            if (m_previewMode == PreviewModeEnum.Led_4)
+            {
+                var buttonLedTurquoiseFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_FILL_COLOR));
+                ImGui.Text("Button Led Turquoise Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseFillColor", ref buttonLedTurquoiseFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseFillColor));
+
+                var buttonLedTurquoiseStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_STROKE_COLOR));
+                ImGui.Text("Button Led Turquoise Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseStrokeColor", ref buttonLedTurquoiseStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseStrokeColor));
+
+                var buttonLedTurquoiseTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_TEXT_COLOR));
+                ImGui.Text("Button Led Turquoise Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseTextColor", ref buttonLedTurquoiseTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedTurquoiseHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led Turquoise Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseHoverFillColor", ref buttonLedTurquoiseHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverFillColor));
+
+                var buttonLedTurquoiseHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led Turquoise Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseHoverStrokeColor", ref buttonLedTurquoiseHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverStrokeColor));
+
+                var buttonLedTurquoiseHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_TURQUOISE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led Turquoise Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedTurquoiseHoverTextColor", ref buttonLedTurquoiseHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_TURQUOISE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedTurquoiseHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedWhiteFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_FILL_COLOR));
+                ImGui.Text("Button Led White Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteFillColor", ref buttonLedWhiteFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteFillColor));
+
+                var buttonLedWhiteStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_STROKE_COLOR));
+                ImGui.Text("Button Led White Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteStrokeColor", ref buttonLedWhiteStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteStrokeColor));
+
+                var buttonLedWhiteTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_TEXT_COLOR));
+                ImGui.Text("Button Led White Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteTextColor", ref buttonLedWhiteTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+
+                var buttonLedWhiteHoverFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_FILL_COLOR));
+                ImGui.Text("Button Led White Hover Fill Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteHoverFillColor", ref buttonLedWhiteHoverFillColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_HOVER_FILL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverFillColor));
+
+                var buttonLedWhiteHoverStrokeColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_STROKE_COLOR));
+                ImGui.Text("Button Led White Hover Stroke Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteHoverStrokeColor", ref buttonLedWhiteHoverStrokeColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_HOVER_STROKE_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverStrokeColor));
+
+                var buttonLedWhiteHoverTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_LED_WHITE_HOVER_TEXT_COLOR));
+                ImGui.Text("Button Led White Hover Text Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##buttonLedWhiteHoverTextColor", ref buttonLedWhiteHoverTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.BUTTON_LED_WHITE_HOVER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(buttonLedWhiteHoverTextColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
+
+            if (m_previewMode == PreviewModeEnum.Snake)
+            {
+                var snakeWallColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_WALL_COLOR));
+                ImGui.Text("Snake Wall Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##snakeWallColor", ref snakeWallColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.SNAKE_WALL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeWallColor));
+
+                var snakeFoodColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_FOOD_COLOR));
+                ImGui.Text("Snake Food Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##snakeFoodColor", ref snakeFoodColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.SNAKE_FOOD_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeFoodColor));
+
+                var snakeHeadColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_HEAD_COLOR));
+                ImGui.Text("Snake Head Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##snakeHeadColor", ref snakeHeadColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.SNAKE_HEAD_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeHeadColor));
+
+                var snakeTailColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.SNAKE_TAIL_COLOR));
+                ImGui.Text("Snake Tail Color:");
+                ImGui.PushItemWidth(250);
+                ImGui.ColorEdit4("##snakeTailColor", ref snakeTailColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.PopItemWidth();
+                m_theme.SNAKE_TAIL_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(snakeTailColor));
+
+                ImGui.Spacing();
+                ImGui.Separator();
+            }
 
             var joyButtonAColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.JOY_BUTTON_A_COLOR));
             ImGui.Text("Joy Button A Color:");
