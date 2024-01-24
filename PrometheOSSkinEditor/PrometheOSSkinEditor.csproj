@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<PublishTrimmed>false</PublishTrimmed>
+		<PublishSingleFile Condition="'$(Configuration)' == 'Release'">true</PublishSingleFile>
+		<SelfContained Condition="'$(Configuration)' == 'Release'">true</SelfContained>
+		<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+		<PublishReadyToRun>true</PublishReadyToRun>
+		<EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+		<OutputType>WinExe</OutputType>
+		<AssemblyName>prometheosskineditor</AssemblyName>
+		<Platforms>x64</Platforms>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<EmbeddedResource Include="Resources\arial.ttf" />
+		<EmbeddedResource Include="Resources\arialbold.ttf" />
+		<EmbeddedResource Include="Resources\controller.otf" />
+		<EmbeddedResource Include="Resources\crossover.ttf" />
+		<EmbeddedResource Include="Resources\icon.png" />
+		<EmbeddedResource Include="Resources\installer.png" />
+		<EmbeddedResource Include="Resources\splash.jpg" />
+		<EmbeddedResource Include="Resources\imgui-vertex.glsl"/>
+		<EmbeddedResource Include="Resources\imgui-frag.glsl"/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Include="..\README.md">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+			<ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+		</Content>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="ImGui.NET" Version="1.89.5" />
+		<PackageReference Include="OpenTK" Version="4.7.7" />
+		<PackageReference Include="SixLabors.ImageSharp" Version="3.0.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Properties\" />
+	  <Folder Include="Properties\PublishProfiles\" />
+	</ItemGroup>
+
+</Project>
