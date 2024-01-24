@@ -67,7 +67,7 @@ namespace PrometheOSSkinEditor
             fontConfig.PixelSnapH = true;
             fontConfig.OversampleH = 3;
             fontConfig.OversampleV = 3;
-            fontConfig.RasterizerMultiply = 2f;
+            fontConfig.RasterizerMultiply = 1f;
             fontConfig.MergeMode = false;
 
             var glyphRangeHandle = GCHandle.Alloc(new ushort[] {

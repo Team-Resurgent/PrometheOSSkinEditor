@@ -15,11 +15,12 @@ namespace PrometheOSSkinEditor
         {
             General_1 = 0,
             General_2 = 1,
-            Led_1 = 2,
-            Led_2 = 3,
-            Led_3 = 4,
-            Led_4 = 5,
-            Snake = 6
+            WideMenu = 2,
+            Led_1 = 3,
+            Led_2 = 4,
+            Led_3 = 5,
+            Led_4 = 6,
+            Snake = 7
         }
 
         private Window m_window;
@@ -231,12 +232,8 @@ namespace PrometheOSSkinEditor
 
         public void Run()
         {
-            var horizontalScale = 1.0f;
-            var verticalScale = 1.0f;
-            m_window.TryGetCurrentMonitorScale(out horizontalScale, out verticalScale);
-
             m_window.Title = $"PrometheOS Skin Editor - {m_version} (Team Resurgent)";
-            m_window.Size = new OpenTK.Mathematics.Vector2i((int)(1018 * horizontalScale), (int)(564 * verticalScale));
+            m_window.Size = new OpenTK.Mathematics.Vector2i(1018, 564);
             m_window.WindowBorder = OpenTK.Windowing.Common.WindowBorder.Fixed;
             m_window.VSync = OpenTK.Windowing.Common.VSyncMode.On;
 
@@ -378,9 +375,9 @@ namespace PrometheOSSkinEditor
                 DrawAllignedText(new Vector2(40, m_theme.PROMETHEOS_Y), 640, m_theme.PROMETHEOS_ALIGN, "PROMETHEOS", 5, m_theme.PROMETHEOS_COLOR);
 
                 DrawButton(new Vector2(260, 125 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button Active", m_theme.BUTTON_ACTIVE_FILL_COLOR, m_theme.BUTTON_ACTIVE_STROKE_COLOR, m_theme.BUTTON_ACTIVE_TEXT_COLOR);
-                DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
-                DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button Active Hover", m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR, m_theme.BUTTON_ACTIVE_STROKE_COLOR, m_theme.BUTTON_ACTIVE_TEXT_COLOR);
-                DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button inactive Hover", m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button Active Hover", m_theme.BUTTON_ACTIVE_HOVER_FILL_COLOR, m_theme.BUTTON_ACTIVE_HOVER_STROKE_COLOR, m_theme.BUTTON_ACTIVE_HOVER_TEXT_COLOR);
+                DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(260, 245 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Button Inactive Hover", m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR, m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR, m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR);
                 DrawButton(new Vector2(260, 285 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Text Button", m_theme.TEXT_PANEL_FILL_COLOR, m_theme.TEXT_PANEL_STROKE_COLOR, m_theme.TEXT_PANEL_TEXT_COLOR);
                 DrawButton(new Vector2(260, 325 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "Text Button Hover", m_theme.TEXT_PANEL_HOVER_FILL_COLOR, m_theme.TEXT_PANEL_HOVER_STROKE_COLOR, m_theme.TEXT_PANEL_HOVER_TEXT_COLOR);
             }
@@ -392,6 +389,18 @@ namespace PrometheOSSkinEditor
 
                 DrawAllignedText(new Vector2(260, 235 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text", 2, m_theme.TEXT_COLOR);
                 DrawAllignedText(new Vector2(260, 275 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text Disabled", 2, m_theme.TEXT_DISABLED_COLOR);
+            }
+            else if (m_previewMode == PreviewModeEnum.WideMenu)
+            {
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+
+                DrawButton(new Vector2(40, 105 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(40, 145 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(40, 185 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(40, 225 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive Hover", m_theme.BUTTON_INACTIVE_HOVER_FILL_COLOR, m_theme.BUTTON_INACTIVE_HOVER_STROKE_COLOR, m_theme.BUTTON_INACTIVE_HOVER_TEXT_COLOR);
+                DrawButton(new Vector2(40, 265 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(40, 305 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
+                DrawButton(new Vector2(40, 345 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
             }
             else if (m_previewMode == PreviewModeEnum.Led_1)
             {
@@ -699,7 +708,10 @@ namespace PrometheOSSkinEditor
 
                 ImGui.Spacing();
                 ImGui.Separator();
+            }
 
+            if (m_previewMode == PreviewModeEnum.General_1 || m_previewMode == PreviewModeEnum.WideMenu)
+            {
                 var butonInactiveFillColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BUTTON_INACTIVE_FILL_COLOR));
                 ImGui.Text("Button Inactive Fill Color:");
                 ImGui.PushItemWidth(250);
