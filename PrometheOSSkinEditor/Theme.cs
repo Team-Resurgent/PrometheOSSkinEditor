@@ -14,7 +14,6 @@ namespace PrometheOSSkinEditor
 
     public struct Theme
     {
-        const uint THEME_BACKGROUND_ANIMATED = 0;
         const uint THEME_BACKGROUND_DELAY = 0;
         const uint THEME_BACKGROUND_COLOR = 0xff11191f;
         const Alignment THEME_PROMETHEOS_ALIGN = Alignment.Left;
@@ -23,7 +22,7 @@ namespace PrometheOSSkinEditor
         const uint THEME_INSTALLER_COLOR = 0xffffffff;
         const uint THEME_TEXT_COLOR = 0xffffffff;
         const uint THEME_TEXT_DISABLED_COLOR = 0xff404040;
-        const uint THEME_TITLE_TEXT_COLOR = 0xffffffff;
+        const uint THEME_HEADER_TEXT_COLOR = 0xffffffff;
         const uint THEME_FOOTER_TEXT_COLOR = 0xffffffff;
 
         const Alignment THEME_HEADER_ALIGN = Alignment.Left;
@@ -123,8 +122,6 @@ namespace PrometheOSSkinEditor
         const uint THEME_BUTTON_LED_WHITE_HOVER_STROKE_COLOR = 0xffffffff;
         const uint THEME_BUTTON_LED_WHITE_HOVER_TEXT_COLOR = 0xff000000;
 
-        public string BACKGROUND_PATH;
-        public uint BACKGROUND_ANIMATED;
         public uint BACKGROUND_DELAY;
         public uint BACKGROUND_COLOR;
         public Alignment PROMETHEOS_ALIGN;
@@ -133,7 +130,7 @@ namespace PrometheOSSkinEditor
         public uint INSTALLER_COLOR;
         public uint TEXT_COLOR;
         public uint TEXT_DISABLED_COLOR;
-        public uint TITLE_TEXT_COLOR;
+        public uint HEADER_TEXT_COLOR;
         public uint FOOTER_TEXT_COLOR;
 
         public Alignment HEADER_ALIGN;
@@ -238,8 +235,6 @@ namespace PrometheOSSkinEditor
 
         public void DefaultTheme()
         {
-            BACKGROUND_PATH = string.Empty;
-            BACKGROUND_ANIMATED = THEME_BACKGROUND_ANIMATED;
             BACKGROUND_DELAY = THEME_BACKGROUND_DELAY;
             BACKGROUND_COLOR = THEME_BACKGROUND_COLOR;
 
@@ -255,7 +250,7 @@ namespace PrometheOSSkinEditor
 
             TEXT_COLOR = THEME_TEXT_COLOR;
             TEXT_DISABLED_COLOR = THEME_TEXT_DISABLED_COLOR;
-            TITLE_TEXT_COLOR = THEME_TITLE_TEXT_COLOR;
+            HEADER_TEXT_COLOR = THEME_HEADER_TEXT_COLOR;
             FOOTER_TEXT_COLOR = THEME_FOOTER_TEXT_COLOR;
 
             SNAKE_WALL_COLOR = THEME_SNAKE_WALL_COLOR;
@@ -353,7 +348,6 @@ namespace PrometheOSSkinEditor
 
         public Theme()
         {
-            BACKGROUND_PATH = string.Empty;
             DefaultTheme();
         }
 
@@ -409,9 +403,7 @@ namespace PrometheOSSkinEditor
         {
             var stringBuilder = new StringBuilder();
 
-            stringBuilder.AppendLine($"BACKGROUND_PATH = {BACKGROUND_PATH}");
-            //stringBuilder.AppendLine($"BACKGROUND_ANIMATED = {BACKGROUND_ANIMATED}");
-            //stringBuilder.AppendLine($"BACKGROUND_DELAY = {BACKGROUND_DELAY}");
+            stringBuilder.AppendLine($"BACKGROUND_DELAY = {BACKGROUND_DELAY}");
             stringBuilder.AppendLine($"BACKGROUND_COLOR = {BACKGROUND_COLOR.ToString("x8")}");
             stringBuilder.AppendLine();
 
@@ -429,7 +421,7 @@ namespace PrometheOSSkinEditor
 
             stringBuilder.AppendLine($"TEXT_COLOR = 0x{TEXT_COLOR.ToString("x8")}");
             stringBuilder.AppendLine($"TEXT_DISABLED_COLOR = 0x{TEXT_DISABLED_COLOR.ToString("x8")}");
-            stringBuilder.AppendLine($"TITLE_TEXT_COLOR = 0x{TITLE_TEXT_COLOR.ToString("x8")}");
+            stringBuilder.AppendLine($"HEADER_TEXT_COLOR = 0x{HEADER_TEXT_COLOR.ToString("x8")}");
             stringBuilder.AppendLine($"FOOTER_TEXT_COLOR = 0x{FOOTER_TEXT_COLOR.ToString("x8")}");
             stringBuilder.AppendLine();
 
@@ -567,15 +559,7 @@ namespace PrometheOSSkinEditor
                     continue;
                 }
 
-                if (string.Equals(lineParams[0], "BACKGROUND_PATH", StringComparison.CurrentCultureIgnoreCase) == true)
-                {
-                    theme.BACKGROUND_PATH = lineParams[1];
-                }
-                else if (string.Equals(lineParams[0], "BACKGROUND_ANIMATED", StringComparison.CurrentCultureIgnoreCase) == true)
-                {
-                    ParseUnsignedNumber(lineParams[1], ref theme.BACKGROUND_ANIMATED);
-                }
-                else if (string.Equals(lineParams[0], "BACKGROUND_DELAY", StringComparison.CurrentCultureIgnoreCase) == true)
+                if (string.Equals(lineParams[0], "BACKGROUND_DELAY", StringComparison.CurrentCultureIgnoreCase) == true)
                 {
                     ParseUnsignedNumber(lineParams[1], ref theme.BACKGROUND_DELAY);
                 }
@@ -627,9 +611,9 @@ namespace PrometheOSSkinEditor
                 {
                     ParseUnsignedNumber(lineParams[1], ref theme.TEXT_DISABLED_COLOR);
                 }
-                else if (string.Equals(lineParams[0], "TITLE_TEXT_COLOR", StringComparison.CurrentCultureIgnoreCase) == true)
+                else if (string.Equals(lineParams[0], "TITLE_TEXT_COLOR", StringComparison.CurrentCultureIgnoreCase) == true || string.Equals(lineParams[0], "HEADER_TEXT_COLOR", StringComparison.CurrentCultureIgnoreCase) == true)
                 {
-                    ParseUnsignedNumber(lineParams[1], ref theme.TITLE_TEXT_COLOR);
+                    ParseUnsignedNumber(lineParams[1], ref theme.HEADER_TEXT_COLOR);
                 }
                 else if (string.Equals(lineParams[0], "FOOTER_TEXT_COLOR", StringComparison.CurrentCultureIgnoreCase) == true)
                 {

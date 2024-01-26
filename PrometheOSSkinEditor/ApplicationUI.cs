@@ -23,8 +23,15 @@ namespace PrometheOSSkinEditor
             Snake = 7
         }
 
+        private struct Background
+        {
+            public int BackgroundTextureId;
+            public byte[] BackgroundData;
+        }
+
         private Window m_window;
         private PathPicker? m_backgroundFileOpenPicker;
+        private PathPicker? m_backgroundFolderOpenPicker;
         private PathPicker? m_themeFileOpenPicker;
         private PathPicker? m_themeFileSavePicker;
         private SplashDialog m_splashDialog = new();
@@ -32,11 +39,11 @@ namespace PrometheOSSkinEditor
         private Theme m_theme = new();
         private bool m_showSplash = true;
         private string m_version;
+        private int m_frameIndex = 0;
+        private float m_totalTime = 0;
         private PreviewModeEnum m_previewMode = PreviewModeEnum.General_1;
 
-        private int m_backgroundTexture = 0;
-        private byte[] m_backgroundData = Array.Empty<byte>();
-        private bool m_backgroundTextureLoaded = false;
+        private List<Background> m_Backgrounds = new List<Background>();
 
         static List<Vector2> CreateRoundedEdgeRectangle(Vector2 pos, Vector2 size, float radius)
         {
@@ -170,27 +177,51 @@ namespace PrometheOSSkinEditor
             ImGui.SetCursorPos(origCursor);
         }
 
-        private void DisposeBackgroundImage()
+        private void DisposeBackgroundImages()
         {
-            if (m_backgroundTextureLoaded)
+            foreach (var b in m_Backgrounds)
             {
-                m_window.Controller.DisposeOwnedTexture(m_backgroundTexture);
-                m_backgroundData = Array.Empty<byte>();
-                m_backgroundTextureLoaded = false;
+                m_window.Controller.DisposeOwnedTexture(b.BackgroundTextureId);
             }
+            m_Backgrounds.Clear();
         }
 
-        private bool LoadBackgroundImage(string imagePath)
+        private void LoadBackgroundImages(string imagePath)
         {
-            DisposeBackgroundImage();
+            DisposeBackgroundImages();
+
             if (File.Exists(imagePath))
             {
-                m_backgroundTexture = m_window.Controller.CreateTextureFromFile(imagePath);
-                m_backgroundData = File.ReadAllBytes(imagePath);
-                m_backgroundTextureLoaded = true;
-                return true;
+                try
+                {
+                    Background background;
+                    background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(imagePath);
+                    background.BackgroundData = File.ReadAllBytes(imagePath);
+                    m_Backgrounds.Add(background);
+                }
+                catch
+                {
+                    // Ignore invalid file
+                }
             }
-            return false;
+            else if (Directory.Exists(imagePath))
+            {
+                var files = Directory.GetFiles(imagePath);
+                foreach (var f in files)
+                {
+                    try
+                    {
+                        Background background;
+                        background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(f);
+                        background.BackgroundData = File.ReadAllBytes(f);
+                        m_Backgrounds.Add(background);
+                    }
+                    catch
+                    {
+                        // Ignore invalid file
+                    }
+                }
+            }
         }
 
         [DllImport("dwmapi.dll", PreserveSig = true)]
@@ -256,9 +287,16 @@ namespace PrometheOSSkinEditor
 
             m_backgroundFileOpenPicker = new PathPicker
             {
-                Title = "Load Background",
+                Title = "Load Background File",
                 Mode = PathPicker.PickerMode.FileOpen,
                 AllowedFiles = new[] { "*.jpg", "*.png" },
+                ButtonName = "Load"
+            };
+
+            m_backgroundFolderOpenPicker = new PathPicker
+            {
+                Title = "Load Backgrounds From Folder",
+                Mode = PathPicker.PickerMode.Folder,
                 ButtonName = "Load"
             };
 
@@ -281,13 +319,29 @@ namespace PrometheOSSkinEditor
             m_window.Run();
         }
 
-        private void RenderUI()
+        private void RenderUI(float dt)
         {
             if (m_backgroundFileOpenPicker == null ||
+                m_backgroundFolderOpenPicker == null ||
                 m_themeFileOpenPicker == null ||
                 m_themeFileSavePicker == null)
             {
                 return;
+            }
+
+            if (m_Backgrounds.Count() > 0)
+            {
+                m_totalTime += dt;
+                if (m_totalTime > m_theme.BACKGROUND_DELAY)
+                {
+                    m_frameIndex = (m_frameIndex + 1) % m_Backgrounds.Count();
+                    m_totalTime = 0;
+                }
+            }
+            else
+            {
+                m_frameIndex = 0;
+                m_totalTime = 0;
             }
 
             if (m_backgroundFileOpenPicker.Render() && !m_backgroundFileOpenPicker.Cancelled)
@@ -296,7 +350,15 @@ namespace PrometheOSSkinEditor
                 Settings.SaveSattings(m_settings);
 
                 var loadPath = Path.Combine(m_backgroundFileOpenPicker.SelectedFolder, m_backgroundFileOpenPicker.SelectedFile);
-                m_theme.BACKGROUND_PATH = LoadBackgroundImage(loadPath) ? Path.GetFileName(loadPath) : string.Empty;
+                LoadBackgroundImages(loadPath);
+            }
+
+            if (m_backgroundFolderOpenPicker.Render() && !m_backgroundFolderOpenPicker.Cancelled)
+            {
+                m_settings.LastPath = m_backgroundFileOpenPicker.SelectedFolder;
+                Settings.SaveSattings(m_settings);
+
+                LoadBackgroundImages(m_backgroundFolderOpenPicker.SelectedFolder);
             }
 
             if (m_themeFileOpenPicker.Render() && !m_themeFileOpenPicker.Cancelled)
@@ -305,19 +367,38 @@ namespace PrometheOSSkinEditor
                 Settings.SaveSattings(m_settings);
 
                 m_theme = Theme.LoadTheme(Path.Combine(m_themeFileOpenPicker.SelectedFolder, m_themeFileOpenPicker.SelectedFile));
-                var themeBackgroundPath = Path.Combine(m_themeFileOpenPicker.SelectedFolder, m_theme.BACKGROUND_PATH);
-                m_theme.BACKGROUND_PATH = LoadBackgroundImage(themeBackgroundPath) ? Path.GetFileName(themeBackgroundPath) : string.Empty;
+                var themeBackgroundPath = Path.Combine(m_themeFileOpenPicker.SelectedFolder, "backgrounds");
+                LoadBackgroundImages(themeBackgroundPath);
             }
 
             if (m_themeFileSavePicker.Render() && !m_themeFileSavePicker.Cancelled && string.IsNullOrEmpty(m_settings.LastPath) == false)
             {
-                var savePath = Path.Combine(m_themeFileSavePicker.SelectedFolder, m_themeFileSavePicker.SaveName);
-                m_theme.SaveTheme(savePath);
+                var themeFolderPath = Path.Combine(m_themeFileSavePicker.SelectedFolder, m_themeFileSavePicker.SaveName);
+                m_theme.SaveTheme(themeFolderPath);
 
-                if (m_backgroundTextureLoaded)
+                if (m_Backgrounds.Count > 0)
                 {
-                    using var backgroundImage = SixLabors.ImageSharp.Image.Load<Rgba32>(m_backgroundData);
-                    backgroundImage.Save(Path.Combine(savePath, m_theme.BACKGROUND_PATH));
+                    var backgroundsPath = Path.Combine(themeFolderPath, "backgrounds");
+                    if (Directory.Exists(backgroundsPath) == false)
+                    {
+                        Directory.CreateDirectory(backgroundsPath);
+                    }
+                    else
+                    {
+                        string[] backgroundFiles = Directory.GetFiles(backgroundsPath);
+                        foreach (var backgroundFile in backgroundFiles)
+                        {
+                            File.Delete(backgroundFile);
+                        }
+                    }
+
+                    for (int i = 0; i < m_Backgrounds.Count; i++)
+                    {
+                        Background b = m_Backgrounds[i];
+                        using var backgroundImage = SixLabors.ImageSharp.Image.Load<Rgba32>(b.BackgroundData);
+                        var backgroundSavePath = Path.Combine(backgroundsPath, m_Backgrounds.Count == 1 ? "background.png" : $"background{i + 1}.png");
+                        backgroundImage.Save(backgroundSavePath);
+                    }
                 }
             }
 
@@ -363,9 +444,9 @@ namespace PrometheOSSkinEditor
             drawList.AddRect(new Vector2(8, 34), new Vector2(8 + 722, 34 + 482), Theme.ConvertARGBtoABGR(0x80ffffff));
             drawList.AddRectFilled(new Vector2(9, 35), new Vector2(9 + 720, 35 + 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_COLOR));
 
-            if (m_backgroundTextureLoaded)
+            if (m_frameIndex < m_Backgrounds.Count())
             {
-                DrawImage(m_backgroundTexture, new Vector2(0, 0), new Vector2(720, 480), 0xffffffff);
+                DrawImage(m_Backgrounds[m_frameIndex].BackgroundTextureId, new Vector2(0, 0), new Vector2(720, 480), 0xffffffff);
             }
 
             DrawPanel(new Vector2(16, 16), new Vector2(688, 448), m_theme.PANEL_FILL_COLOR, m_theme.PANEL_STROKE_COLOR);
@@ -383,7 +464,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.General_2)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawImage(m_window.Controller.InstallerTexture, new Vector2(269, 175), new Vector2(178, 46), m_theme.INSTALLER_COLOR);
 
@@ -392,7 +473,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.WideMenu)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawButton(new Vector2(40, 105 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
                 DrawButton(new Vector2(40, 145 + m_theme.CENTER_OFFSET), new Vector2(640, 30), "Button Inactive", m_theme.BUTTON_INACTIVE_FILL_COLOR, m_theme.BUTTON_INACTIVE_STROKE_COLOR, m_theme.BUTTON_INACTIVE_TEXT_COLOR);
@@ -404,7 +485,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.Led_1)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Off", m_theme.BUTTON_LED_OFF_FILL_COLOR, m_theme.BUTTON_LED_OFF_STROKE_COLOR, m_theme.BUTTON_LED_OFF_TEXT_COLOR);
                 DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Off Hover", m_theme.BUTTON_LED_OFF_HOVER_FILL_COLOR, m_theme.BUTTON_LED_OFF_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_OFF_HOVER_TEXT_COLOR);
@@ -413,7 +494,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.Led_2)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Green", m_theme.BUTTON_LED_GREEN_FILL_COLOR, m_theme.BUTTON_LED_GREEN_STROKE_COLOR, m_theme.BUTTON_LED_GREEN_TEXT_COLOR);
                 DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Green Hover", m_theme.BUTTON_LED_GREEN_HOVER_FILL_COLOR, m_theme.BUTTON_LED_GREEN_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_GREEN_HOVER_TEXT_COLOR);
@@ -422,7 +503,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.Led_3)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Blue", m_theme.BUTTON_LED_BLUE_FILL_COLOR, m_theme.BUTTON_LED_BLUE_STROKE_COLOR, m_theme.BUTTON_LED_BLUE_TEXT_COLOR);
                 DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Blue Hover", m_theme.BUTTON_LED_BLUE_HOVER_FILL_COLOR, m_theme.BUTTON_LED_BLUE_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_BLUE_HOVER_TEXT_COLOR);
@@ -431,7 +512,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.Led_4)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 DrawButton(new Vector2(260, 165 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Turquoise", m_theme.BUTTON_LED_TURQUOISE_FILL_COLOR, m_theme.BUTTON_LED_TURQUOISE_STROKE_COLOR, m_theme.BUTTON_LED_TURQUOISE_TEXT_COLOR);
                 DrawButton(new Vector2(260, 205 + m_theme.CENTER_OFFSET), new Vector2(200, 30), "LED Turquoise Hover", m_theme.BUTTON_LED_TURQUOISE_HOVER_FILL_COLOR, m_theme.BUTTON_LED_TURQUOISE_HOVER_STROKE_COLOR, m_theme.BUTTON_LED_TURQUOISE_HOVER_TEXT_COLOR);
@@ -440,7 +521,7 @@ namespace PrometheOSSkinEditor
             }
             else if (m_previewMode == PreviewModeEnum.Snake)
             {
-                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Title Text", 3, m_theme.TITLE_TEXT_COLOR);
+                DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
                 int width = 58;
                 int height = 16;
@@ -497,43 +578,33 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
-            var backgroundPath = m_theme.BACKGROUND_PATH;
-            ImGui.Text("Background Path:");
-            ImGui.PushItemWidth(202);
-            ImGui.InputText("##backgroundPath", ref backgroundPath, 42, ImGuiInputTextFlags.ReadOnly);
-            ImGui.PopItemWidth();
-            ImGui.SameLine();
-            if (ImGui.Button("...", new Vector2(40, 0)))
+            ImGui.Text("Background Loading:");
+            if (ImGui.Button("Load File", new Vector2(120, 0)))
             {
                 var path = Directory.Exists(m_settings.LastPath) ? m_settings.LastPath : Directory.GetCurrentDirectory();
                 m_backgroundFileOpenPicker.ShowModal(path);
             }
-            m_theme.BACKGROUND_PATH = backgroundPath;
-
-            if (m_backgroundTextureLoaded)
+            ImGui.SameLine();
+            if (ImGui.Button("Load Folder", new Vector2(120, 0)))
             {
-                if (ImGui.Button("Close Background", new Vector2(250, 0)))
+                var path = Directory.Exists(m_settings.LastPath) ? m_settings.LastPath : Directory.GetCurrentDirectory();
+                m_backgroundFolderOpenPicker.ShowModal(path);
+            }
+
+            if (m_Backgrounds.Count > 0)
+            {
+                if (ImGui.Button("Close Background(s)", new Vector2(250, 0)))
                 {
-                    DisposeBackgroundImage();
-                    m_theme.BACKGROUND_PATH = string.Empty;
+                    DisposeBackgroundImages();
                 }
             }
 
-            //string[] boolValues = new string[] { "No", "Yes" };
-
-            //var backgroundAnimated = (int)m_theme.BACKGROUND_ANIMATED;
-            //ImGui.Text("Background Animated:");
-            //ImGui.PushItemWidth(250);
-            //ImGui.Combo("##backgroundAnimated", ref backgroundAnimated, boolValues, boolValues.Length);
-            //ImGui.PopItemWidth();
-            //m_theme.BACKGROUND_ANIMATED = (uint)backgroundAnimated;
-
-            //var backgroundDelay = (int)m_theme.BACKGROUND_DELAY;
-            //ImGui.Text("Background Delay:");
-            //ImGui.PushItemWidth(250);
-            //ImGui.InputInt("##backgroundDelay", ref backgroundDelay, 1, 5, ImGuiInputTextFlags.CharsDecimal);
-            //ImGui.PopItemWidth();
-            //m_theme.BACKGROUND_DELAY = (uint)Math.Min(Math.Max(backgroundDelay, 0), 65536);
+            var backgroundDelay = (int)m_theme.BACKGROUND_DELAY;
+            ImGui.Text("Background Delay:");
+            ImGui.PushItemWidth(250);
+            ImGui.InputInt("##backgroundDelay", ref backgroundDelay, 1, 5, ImGuiInputTextFlags.CharsDecimal);
+            ImGui.PopItemWidth();
+            m_theme.BACKGROUND_DELAY = (uint)Math.Min(Math.Max(backgroundDelay, 0), 65536);
 
             var backgroundColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_COLOR));
             ImGui.Text("Background Color:");
@@ -641,12 +712,12 @@ namespace PrometheOSSkinEditor
 
             if (m_previewMode != PreviewModeEnum.General_1)
             {
-                var titleTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.TITLE_TEXT_COLOR));
+                var headerTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.HEADER_TEXT_COLOR));
                 ImGui.Text("Title Text Color:");
                 ImGui.PushItemWidth(250);
-                ImGui.ColorEdit4("##titleTextColor", ref titleTextColor, ImGuiColorEditFlags.AlphaBar);
+                ImGui.ColorEdit4("##headerTextColor", ref headerTextColor, ImGuiColorEditFlags.AlphaBar);
                 ImGui.PopItemWidth();
-                m_theme.TITLE_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(titleTextColor));
+                m_theme.HEADER_TEXT_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(headerTextColor));
             }
 
             var footerTextColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.FOOTER_TEXT_COLOR));
@@ -1296,8 +1367,7 @@ namespace PrometheOSSkinEditor
 
             if (ImGui.Button("Set Default Theme", new Vector2(150, 30)))
             {
-                m_theme.BACKGROUND_PATH = string.Empty;
-                DisposeBackgroundImage();
+                DisposeBackgroundImages();
                 m_theme.DefaultTheme();
             }
 
