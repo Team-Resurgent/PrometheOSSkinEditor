@@ -491,12 +491,12 @@ namespace PrometheOSSkinEditor
 
             if (m_Backgrounds.Count() > 0 && m_frameIndex < m_Backgrounds.Count())
             {
-                DrawImage(m_Backgrounds[m_frameIndex].BackgroundTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_TINT));
+                DrawImage(m_Backgrounds[m_frameIndex].BackgroundTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_IMAGE_TINT));
             }
 
             if (m_OverlayLoaded)
             {
-                DrawImage(m_OverlayTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_TINT));
+                DrawImage(m_OverlayTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_IMAGE_TINT));
             }
 
             DrawPanel(new Vector2(16, 16), new Vector2(688, 448), m_theme.PANEL_FILL_COLOR, m_theme.PANEL_STROKE_COLOR);
@@ -516,7 +516,7 @@ namespace PrometheOSSkinEditor
             {
                 DrawAllignedText(new Vector2(40, m_theme.HEADER_Y), 640, m_theme.HEADER_ALIGN, "Header Text", 3, m_theme.HEADER_TEXT_COLOR);
 
-                DrawImage(m_window.Controller.InstallerTexture, new Vector2(269, 175), new Vector2(178, 46), m_theme.INSTALLER_COLOR);
+                DrawImage(m_window.Controller.InstallerTexture, new Vector2(269, 175), new Vector2(178, 46), m_theme.INSTALLER_TINT);
 
                 DrawAllignedText(new Vector2(260, 235 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text", 2, m_theme.TEXT_COLOR);
                 DrawAllignedText(new Vector2(260, 275 + m_theme.CENTER_OFFSET), 200, Alignment.Center, "Text Disabled", 2, m_theme.TEXT_DISABLED_COLOR);
@@ -708,19 +708,19 @@ namespace PrometheOSSkinEditor
             ImGui.PopItemWidth();
             m_theme.BACKGROUND_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundColor));
 
-            var backgroundTint = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_TINT));
-            ImGui.Text("Background Tint:");
+            var backgroundImageTint = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_IMAGE_TINT));
+            ImGui.Text("Background Image Tint:");
             ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##backgroundTint", ref backgroundTint, ImGuiColorEditFlags.AlphaBar);
+            ImGui.ColorEdit4("##backgroundImageTint", ref backgroundImageTint, ImGuiColorEditFlags.AlphaBar);
             ImGui.PopItemWidth();
-            m_theme.BACKGROUND_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundTint));
+            m_theme.BACKGROUND_IMAGE_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundImageTint));
 
-            var backgroundOverlayTint = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_TINT));
-            ImGui.Text("Background Overlay Tint:");
+            var backgroundOverlayImageTint = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_IMAGE_TINT));
+            ImGui.Text("Background Overlay Image Tint:");
             ImGui.PushItemWidth(250);
-            ImGui.ColorEdit4("##backgroundOverlayTint", ref backgroundOverlayTint, ImGuiColorEditFlags.AlphaBar);
+            ImGui.ColorEdit4("##backgroundOverlayImageTint", ref backgroundOverlayImageTint, ImGuiColorEditFlags.AlphaBar);
             ImGui.PopItemWidth();
-            m_theme.BACKGROUND_OVERLAY_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundOverlayTint));
+            m_theme.BACKGROUND_OVERLAY_IMAGE_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundOverlayImageTint));
 
             ImGui.Spacing();
             ImGui.Separator();
@@ -791,12 +791,12 @@ namespace PrometheOSSkinEditor
                 }
                 if (m_previewMode == PreviewModeEnum.General_2)
                 {
-                    var installerColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.INSTALLER_COLOR));
-                    ImGui.Text("Installer Color:");
+                    var installerTint = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.INSTALLER_TINT));
+                    ImGui.Text("Installer Tint:");
                     ImGui.PushItemWidth(250);
-                    ImGui.ColorEdit4("##installerColor", ref installerColor, ImGuiColorEditFlags.AlphaBar);
+                    ImGui.ColorEdit4("##installerTint", ref installerTint, ImGuiColorEditFlags.AlphaBar);
                     ImGui.PopItemWidth();
-                    m_theme.INSTALLER_COLOR = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(installerColor));
+                    m_theme.INSTALLER_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(installerTint));
                 }
                 ImGui.Spacing();
                 ImGui.Separator();
