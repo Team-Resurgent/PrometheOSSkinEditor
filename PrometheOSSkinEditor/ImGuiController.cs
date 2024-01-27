@@ -135,9 +135,13 @@ namespace PrometheOSSkinEditor
             return texture;
         }
 
-        public unsafe int CreateTextureFromFile(string path)
+        public unsafe int CreateTextureFromFile(string path, out int width, out int height)
         {
             using var resourceImage = SixLabors.ImageSharp.Image.Load<Bgra32>(path);
+
+            width = resourceImage.Width; 
+            height = resourceImage.Height;
+
             var pixelSpan = new Span<Bgra32>(new Bgra32[resourceImage.Width * resourceImage.Height]);
             resourceImage.CopyPixelDataTo(pixelSpan);
 

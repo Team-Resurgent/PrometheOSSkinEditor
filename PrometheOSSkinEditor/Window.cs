@@ -16,7 +16,7 @@ namespace PrometheOSSkinEditor
 
         public int Height => ClientSize.Y;
 
-        public Action? RenderUI { get; set; }
+        public Action<float>? RenderUI { get; set; }
 
         public ImGuiController Controller { get; set; }
 
@@ -40,7 +40,7 @@ namespace PrometheOSSkinEditor
             GL.ClearColor(new Color4(0, 0, 0, 255));
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit);
 
-            RenderUI?.Invoke();
+            RenderUI?.Invoke((float)e.Time * 1000);
 
             Controller?.Render();
 
