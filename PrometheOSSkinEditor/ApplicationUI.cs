@@ -1533,8 +1533,4 @@ namespace PrometheOSSkinEditor
             ImGui.End();
         }
     }
-
-
-
-
 }
