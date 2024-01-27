@@ -57,7 +57,22 @@ PrometheOS Skin Editor is a tool which will allow you to customize some of the f
 ![GUI](https://github.com/Team-Resurgent/PrometheOSSkinEditor/blob/main/readmeStuff/Gui1.JPG?raw=true)</div>
 * Load or Create a theme and customise easilly with the WYSIWYG editor.
 
+## Useful Info
 
+The amount of Background frames you can have depends on the mem use used. 
+Each image uses the next PowerOf2 in a axis multiplied by 4 bytes.
+So for example a 720 x 480 image is actually stored as 1024 x 512. 
+Therefore 1024 x 512 x 4 = 2097152 bytes. 
+
+The set limit of loading backgrounds is set exactly to 20MB
+Since PrometheOS stretches your images to fit screen, it is possible
+to use smaller background images allowing for more frames.
+
+In the case where you have lower quality images for background you 
+can add a background overlay which then gets superimposed ontop of your
+background, makign things look crisp and clean where it matters the most.
+
+As an addition example using 256 x 256 images for background, means you can have up to 80 frames.
 
 ## Acknowledgements
 * First, we would like to thank all of our Patreon supporters! You are the reason we can continue to advance our open source vision of the Xbox Scene!
