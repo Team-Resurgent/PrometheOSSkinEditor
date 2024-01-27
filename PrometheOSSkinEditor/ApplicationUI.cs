@@ -294,8 +294,9 @@ namespace PrometheOSSkinEditor
 
         public void Run()
         {
-            m_window.Title = $"PrometheOS Skin Editor - {m_version} (Team Resurgent)";
-            m_window.Size = new OpenTK.Mathematics.Vector2i(1018, 564);
+            var hdpiScale = m_window.Controller.GetHdpiScale();
+            m_window.Title = $"PrometheOS Skin Editor - {m_version} (Team Resurgent)"; 
+            m_window.Size = new OpenTK.Mathematics.Vector2i((int)(1018 * hdpiScale.X), (int)(564 * hdpiScale.Y));
             m_window.WindowBorder = OpenTK.Windowing.Common.WindowBorder.Fixed;
             m_window.VSync = OpenTK.Windowing.Common.VSyncMode.On;
 
@@ -469,6 +470,8 @@ namespace PrometheOSSkinEditor
             ImGui.Begin("Main", ImGuiWindowFlags.NoMove | ImGuiWindowFlags.NoTitleBar | ImGuiWindowFlags.NoResize);
             ImGui.SetWindowSize(GetScaledWindowSize());
             ImGui.SetWindowPos(new Vector2(0, 24), ImGuiCond.Always);
+
+            var windowSize = ImGui.GetWindowSize();
 
             if (ImGui.BeginMainMenuBar())
             {
@@ -1493,7 +1496,7 @@ namespace PrometheOSSkinEditor
 
             ImGui.EndChild();
 
-            var windowSize = ImGui.GetWindowSize();
+            var windowSizex = ImGui.GetWindowSize();
 
             ImGui.SetCursorPosY(windowSize.Y - 64);
 
