@@ -43,6 +43,11 @@ namespace PrometheOSSkinEditor
             return _hdpiScale / _retinaScale;
         }
 
+        public Vector2 GetHdpiScale()
+        {
+            return _hdpiScale;
+        }
+
         public int SplashTexture => _splashTexture;
         public int InstallerTexture => _installerTexture;
 

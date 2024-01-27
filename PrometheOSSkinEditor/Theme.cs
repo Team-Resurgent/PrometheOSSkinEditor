@@ -419,9 +419,9 @@ namespace PrometheOSSkinEditor
             stringBuilder.AppendLine();
 
             stringBuilder.AppendLine($"BACKGROUND_FRAME_DELAY = {BACKGROUND_FRAME_DELAY}");
-            stringBuilder.AppendLine($"BACKGROUND_COLOR = {BACKGROUND_COLOR.ToString("x8")}");
-            stringBuilder.AppendLine($"BACKGROUND_IMAGE_TINT = {BACKGROUND_IMAGE_TINT.ToString("x8")}");
-            stringBuilder.AppendLine($"BACKGROUND_OVERLAY_IMAGE_TINT = {BACKGROUND_OVERLAY_IMAGE_TINT.ToString("x8")}");
+            stringBuilder.AppendLine($"BACKGROUND_COLOR = 0x{BACKGROUND_COLOR.ToString("x8")}");
+            stringBuilder.AppendLine($"BACKGROUND_IMAGE_TINT = 0x{BACKGROUND_IMAGE_TINT.ToString("x8")}");
+            stringBuilder.AppendLine($"BACKGROUND_OVERLAY_IMAGE_TINT = 0x{BACKGROUND_OVERLAY_IMAGE_TINT.ToString("x8")}");
             stringBuilder.AppendLine();
 
             stringBuilder.AppendLine($"PROMETHEOS_ALIGN = {(uint)PROMETHEOS_ALIGN}");
