@@ -45,6 +45,7 @@ namespace PrometheOSSkinEditor
         private PreviewModeEnum m_previewMode = PreviewModeEnum.General_1;
 
         private List<Background> m_Backgrounds = new List<Background>();
+        private ulong m_backgroundMemUsed = 0;
         private int m_OverlayTextureId;
         private byte[] m_OverlayData = Array.Empty<byte>();
         private bool m_OverlayLoaded;
@@ -188,6 +189,7 @@ namespace PrometheOSSkinEditor
                 m_window.Controller.DisposeOwnedTexture(b.BackgroundTextureId);
             }
             m_Backgrounds.Clear();
+            m_backgroundMemUsed = 0;
         }
 
         private void DisposeOverlayImage()
@@ -206,9 +208,10 @@ namespace PrometheOSSkinEditor
                 try
                 {
                     Background background;
-                    background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(imagePath);
+                    background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(imagePath, out var width, out var height);
                     background.BackgroundData = File.ReadAllBytes(imagePath);
                     m_Backgrounds.Add(background);
+                    m_backgroundMemUsed += (Utility.RoundUpToNextPowerOf2((uint)width) * Utility.RoundUpToNextPowerOf2((uint)height) * 4);
                 }
                 catch
                 {
@@ -223,9 +226,10 @@ namespace PrometheOSSkinEditor
                     try
                     {
                         Background background;
-                        background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(f);
+                        background.BackgroundTextureId = m_window.Controller.CreateTextureFromFile(f, out var width, out var height);
                         background.BackgroundData = File.ReadAllBytes(f);
                         m_Backgrounds.Add(background);
+                        m_backgroundMemUsed += (Utility.RoundUpToNextPowerOf2((uint)width) * Utility.RoundUpToNextPowerOf2((uint)height) * 4);
                     }
                     catch
                     {
@@ -241,7 +245,7 @@ namespace PrometheOSSkinEditor
 
             try
             {
-                m_OverlayTextureId = m_window.Controller.CreateTextureFromFile(imagePath);
+                m_OverlayTextureId = m_window.Controller.CreateTextureFromFile(imagePath, out var width, out var height);
                 m_OverlayData = File.ReadAllBytes(imagePath);
                 m_OverlayLoaded = true;
             }
@@ -368,7 +372,7 @@ namespace PrometheOSSkinEditor
             if (m_Backgrounds.Count() > 0)
             {
                 m_totalTime += dt;
-                if (m_totalTime > m_theme.BACKGROUND_DELAY)
+                if (m_totalTime > m_theme.BACKGROUND_FRAME_DELAY)
                 {
                     m_frameIndex = (m_frameIndex + 1) % m_Backgrounds.Count();
                     m_totalTime = 0;
@@ -661,6 +665,18 @@ namespace PrometheOSSkinEditor
                 DisposeBackgroundImages();
             }
 
+            uint maxMem = 20 * 1024 * 1024;
+            if (m_backgroundMemUsed > maxMem)
+            {
+                ImGui.PushStyleColor(ImGuiCol.Text, ImGui.ColorConvertFloat4ToU32(new Vector4(1.0f, 0.25f, 0.5f, 1.0f)));
+                ImGui.Text($"Mem used {m_backgroundMemUsed} of Max {maxMem}");
+                ImGui.PopStyleColor();
+            }
+            else
+            {
+                ImGui.Text($"Mem used {m_backgroundMemUsed} of Max {maxMem}");
+            }
+
             if (m_Backgrounds.Count == 0)
             {
                 ImGui.EndDisabled();
@@ -694,12 +710,12 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
-            var backgroundDelay = (int)m_theme.BACKGROUND_DELAY;
-            ImGui.Text("Background Delay (milliseconds):");
+            var backgroundFrameDelay = (int)m_theme.BACKGROUND_FRAME_DELAY;
+            ImGui.Text("Background Fram Delay (ms):");
             ImGui.PushItemWidth(250);
-            ImGui.InputInt("##backgroundDelay", ref backgroundDelay, 1, 5, ImGuiInputTextFlags.CharsDecimal);
+            ImGui.InputInt("##backgroundFrameDelay", ref backgroundFrameDelay, 1, 5, ImGuiInputTextFlags.CharsDecimal);
             ImGui.PopItemWidth();
-            m_theme.BACKGROUND_DELAY = (uint)Math.Min(Math.Max(backgroundDelay, 0), 65536);
+            m_theme.BACKGROUND_FRAME_DELAY = (uint)Math.Min(Math.Max(backgroundFrameDelay, 0), 65536);
 
             var backgroundColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_COLOR));
             ImGui.Text("Background Color:");
