@@ -449,6 +449,13 @@ namespace PrometheOSSkinEditor
                         backgroundImage.Save(backgroundSavePath);
                     }
                 }
+
+                if (m_OverlayLoaded == true)
+                {
+                    using var overlayImage = SixLabors.ImageSharp.Image.Load<Rgba32>(m_OverlayData);
+                    var backgroundOverlaySavePath = Path.Combine(themeFolderPath, "background-overlay.png");
+                    overlayImage.Save(backgroundOverlaySavePath);
+                }
             }
 
             m_splashDialog.Render();
