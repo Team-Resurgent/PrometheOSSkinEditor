@@ -1496,8 +1496,6 @@ namespace PrometheOSSkinEditor
 
             ImGui.EndChild();
 
-            var windowSizex = ImGui.GetWindowSize();
-
             ImGui.SetCursorPosY(windowSize.Y - 64);
 
             if (ImGui.Button("Set Default Theme", new Vector2(150, 30)))
