@@ -178,7 +178,7 @@ namespace PrometheOSSkinEditor
         {
             var origCursor = ImGui.GetCursorPos();
             ImGui.SetCursorPos(pos + new Vector2(9, 11));
-            ImGui.Image(textureId, size, Vector2.Zero, Vector2.One, ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(tint)));
+            ImGui.Image(textureId, size, Vector2.Zero, Vector2.One, ImGui.ColorConvertU32ToFloat4(tint));
             ImGui.SetCursorPos(origCursor);
         }
 
