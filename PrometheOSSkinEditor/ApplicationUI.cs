@@ -419,6 +419,8 @@ namespace PrometheOSSkinEditor
                 m_theme = Theme.LoadTheme(Path.Combine(m_themeFileOpenPicker.SelectedFolder, m_themeFileOpenPicker.SelectedFile));
                 var themeBackgroundPath = Path.Combine(m_themeFileOpenPicker.SelectedFolder, "backgrounds");
                 LoadBackgroundImages(themeBackgroundPath);
+                var themeBackgroundOverlayPath = Path.Combine(m_themeFileOpenPicker.SelectedFolder, "background-overlay.png");
+                LoadOverlayImage(themeBackgroundOverlayPath);
             }
 
             if (m_themeFileSavePicker.Render() && !m_themeFileSavePicker.Cancelled && string.IsNullOrEmpty(m_settings.LastPath) == false)
