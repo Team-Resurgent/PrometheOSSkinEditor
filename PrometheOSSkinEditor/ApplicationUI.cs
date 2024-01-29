@@ -220,7 +220,7 @@ namespace PrometheOSSkinEditor
             }
             else if (Directory.Exists(imagePath))
             {
-                var files = Directory.GetFiles(imagePath);
+                var files = Directory.GetFiles(imagePath).OrderBy(s => s).ToArray();
                 foreach (var f in files)
                 {
                     try
