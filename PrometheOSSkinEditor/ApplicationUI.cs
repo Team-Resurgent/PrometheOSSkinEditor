@@ -41,6 +41,7 @@ namespace PrometheOSSkinEditor
         private bool m_showSplash = true;
         private string m_version;
         private int m_frameIndex = 0;
+        private int m_frameDirection = -1;
         private float m_totalTime = 0;
         private PreviewModeEnum m_previewMode = PreviewModeEnum.General_1;
 
@@ -375,7 +376,20 @@ namespace PrometheOSSkinEditor
                 m_totalTime += dt;
                 if (m_totalTime > m_theme.BACKGROUND_FRAME_DELAY)
                 {
-                    m_frameIndex = (m_frameIndex + 1) % m_Backgrounds.Count();
+                    if (m_theme.BACKGROUND_FRAME_PINGPONG != 0)
+                    {
+                        m_frameIndex = Math.Min(m_frameIndex, m_Backgrounds.Count() - 1);
+                        if (m_frameIndex == 0 || m_frameIndex == (m_Backgrounds.Count() - 1))
+                        {
+                            m_frameDirection = -1 * m_frameDirection;
+                        }
+                        m_frameIndex = m_frameIndex + m_frameDirection;
+                    }
+                    else
+                    {
+                        m_frameIndex = (m_frameIndex + 1) % m_Backgrounds.Count();
+                    }
+
                     m_totalTime = 0;
                 }
             }
@@ -505,14 +519,19 @@ namespace PrometheOSSkinEditor
             drawList.AddRect(new Vector2(8, 34), new Vector2(8 + 722, 34 + 482), Theme.ConvertARGBtoABGR(0x80ffffff));
             drawList.AddRectFilled(new Vector2(9, 35), new Vector2(9 + 720, 35 + 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_COLOR));
 
-            if (m_Backgrounds.Count() > 0 && m_frameIndex < m_Backgrounds.Count())
+            for (int i = 0; i < 2; i++)
             {
-                DrawImage(m_Backgrounds[m_frameIndex].BackgroundTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_IMAGE_TINT));
-            }
+                int index = m_theme.BACKGROUND_OVERLAY_AS_UNDERLAY != 0 ? (1 - i) : i;
 
-            if (m_OverlayLoaded)
-            {
-                DrawImage(m_OverlayTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_IMAGE_TINT));
+                if (index == 0 && m_Backgrounds.Count() > 0 && m_frameIndex < m_Backgrounds.Count())
+                {
+                    DrawImage(m_Backgrounds[m_frameIndex].BackgroundTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_IMAGE_TINT));
+                }
+
+                if (index == 1 && m_OverlayLoaded)
+                {
+                    DrawImage(m_OverlayTextureId, new Vector2(0, 0), new Vector2(720, 480), Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_OVERLAY_IMAGE_TINT));
+                }
             }
 
             DrawPanel(new Vector2(16, 16), new Vector2(688, 448), m_theme.PANEL_FILL_COLOR, m_theme.PANEL_STROKE_COLOR);
@@ -722,12 +741,22 @@ namespace PrometheOSSkinEditor
             ImGui.Spacing();
             ImGui.Separator();
 
+
+            string[] booleanValues = new string[] { "No", "Yes" };
+
             var backgroundFrameDelay = (int)m_theme.BACKGROUND_FRAME_DELAY;
-            ImGui.Text("Background Fram Delay (ms):");
+            ImGui.Text("Background Frame Delay (ms):");
             ImGui.PushItemWidth(250);
             ImGui.InputInt("##backgroundFrameDelay", ref backgroundFrameDelay, 1, 5, ImGuiInputTextFlags.CharsDecimal);
             ImGui.PopItemWidth();
             m_theme.BACKGROUND_FRAME_DELAY = (uint)Math.Min(Math.Max(backgroundFrameDelay, 0), 65536);
+
+            var backgroundFramePingPong = (int)m_theme.BACKGROUND_FRAME_PINGPONG;
+            ImGui.Text("Background Frame Ping Pong:");
+            ImGui.PushItemWidth(250);
+            ImGui.Combo("##backgroundFramePingPong", ref backgroundFramePingPong, booleanValues, booleanValues.Length);
+            ImGui.PopItemWidth();
+            m_theme.BACKGROUND_FRAME_PINGPONG = (uint)backgroundFramePingPong;
 
             var backgroundColor = ImGui.ColorConvertU32ToFloat4(Theme.ConvertARGBtoABGR(m_theme.BACKGROUND_COLOR));
             ImGui.Text("Background Color:");
@@ -749,6 +778,13 @@ namespace PrometheOSSkinEditor
             ImGui.ColorEdit4("##backgroundOverlayImageTint", ref backgroundOverlayImageTint, ImGuiColorEditFlags.AlphaBar);
             ImGui.PopItemWidth();
             m_theme.BACKGROUND_OVERLAY_IMAGE_TINT = Theme.ConvertABGRtoARGB(ImGui.ColorConvertFloat4ToU32(backgroundOverlayImageTint));
+
+            var backgroundOverlayAsUnderlay = (int)m_theme.BACKGROUND_OVERLAY_AS_UNDERLAY;
+            ImGui.Text("Background Overlay As Underlay:");
+            ImGui.PushItemWidth(250);
+            ImGui.Combo("##backgroundOverlayAsUnderlay", ref backgroundOverlayAsUnderlay, booleanValues, booleanValues.Length);
+            ImGui.PopItemWidth();
+            m_theme.BACKGROUND_OVERLAY_AS_UNDERLAY = (uint)backgroundOverlayAsUnderlay;
 
             ImGui.Spacing();
             ImGui.Separator();
