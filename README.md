@@ -17,7 +17,7 @@ PrometheOS Skin Editor is a tool which will allow you to customize some of the f
 
 </div>
 
-				[ Program ........................... PrometheOS Skin Editor V1.0.0 ]
+				[ Program ........................... PrometheOS Skin Editor V1.1.0 ]
 				[ Type ..................................... PrometheOS Skin Editor ]
 				[ OS Architecture ......................................... Windows ]
 				[ Patreon ....................https://www.patreon.com/teamresurgent ]
@@ -59,6 +59,8 @@ PrometheOS Skin Editor is a tool which will allow you to customize some of the f
 
 ## Useful Info
 
+### Background Animation Size
+
 The amount of Background frames you can have depends on the mem use used. 
 Each image uses the next PowerOf2 in a axis multiplied by 4 bytes.
 So for example a 720 x 480 image is actually stored as 1024 x 512. 
@@ -73,6 +75,15 @@ can add a background overlay which then gets superimposed ontop of your
 background, makign things look crisp and clean where it matters the most.
 
 As an addition example using 256 x 256 images for background, means you can have up to 80 frames.
+
+### Background Animation Options
+
+If you wanted to have a static image with a animated overlay you can do this by, creating a background 
+animation with transparency, and a overlay image. You can use the Bacground Overlay as Underlay option to 
+change the draw order.
+
+IF you wanted your animation to start at frame 1 then when at last frame go back frame by frame back to frame 1. 
+You can use the Background frame pingpong option.
 
 ## Acknowledgements
 * First, we would like to thank all of our Patreon supporters! You are the reason we can continue to advance our open source vision of the Xbox Scene!
