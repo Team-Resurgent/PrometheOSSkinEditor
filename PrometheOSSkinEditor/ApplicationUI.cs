@@ -462,7 +462,8 @@ namespace PrometheOSSkinEditor
                     {
                         Background b = m_Backgrounds[i];
                         using var backgroundImage = SixLabors.ImageSharp.Image.Load<Rgba32>(b.BackgroundData);
-                        var backgroundSavePath = Path.Combine(backgroundsPath, m_Backgrounds.Count == 1 ? "background.png" : $"background{i + 1}.png");
+                        var index = $"{i + 1}".PadLeft(3, '0');
+                        var backgroundSavePath = Path.Combine(backgroundsPath, m_Backgrounds.Count == 1 ? "background.png" : $"background{index}.png");
                         backgroundImage.Save(backgroundSavePath);
                     }
                 }
