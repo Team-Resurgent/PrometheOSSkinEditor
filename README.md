@@ -82,7 +82,7 @@ If you wanted to have a static image with a animated overlay you can do this by,
 animation with transparency, and a overlay image. You can use the Bacground Overlay as Underlay option to 
 change the draw order.
 
-IF you wanted your animation to start at frame 1 then when at last frame go back frame by frame back to frame 1. 
+If you wanted your animation to start at frame 1 then when at last frame go back frame by frame back to frame 1. 
 You can use the Background frame pingpong option.
 
 ## Acknowledgements
