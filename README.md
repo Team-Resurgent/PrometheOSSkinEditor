@@ -79,7 +79,7 @@ As an addition example using 256 x 256 images for background, means you can have
 ### Background Animation Options
 
 If you wanted to have a static image with a animated overlay you can do this by, creating a background 
-animation with transparency, and a overlay image. You can use the Bacground Overlay as Underlay option to 
+animation with transparency, and a overlay image. You can use the Background Overlay as Underlay option to 
 change the draw order.
 
 If you wanted your animation to start at frame 1 then when at last frame go back frame by frame back to frame 1. 
