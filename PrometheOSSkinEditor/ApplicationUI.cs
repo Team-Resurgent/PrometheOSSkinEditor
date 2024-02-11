@@ -437,7 +437,7 @@ namespace PrometheOSSkinEditor
                 LoadOverlayImage(themeBackgroundOverlayPath);
             }
 
-            if (m_themeFileSavePicker.Render() && !m_themeFileSavePicker.Cancelled && string.IsNullOrEmpty(m_settings.LastPath) == false)
+            if (m_themeFileSavePicker.Render() && !m_themeFileSavePicker.Cancelled)
             {
                 var themeFolderPath = Path.Combine(m_themeFileSavePicker.SelectedFolder, m_themeFileSavePicker.SaveName);
                 m_theme.SaveTheme(themeFolderPath);
