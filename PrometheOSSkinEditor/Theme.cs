@@ -46,7 +46,7 @@ namespace PrometheOSSkinEditor
         const uint THEME_JOY_BUTTON_X_COLOR = 0xff0000ff;
         const uint THEME_JOY_BUTTON_Y_COLOR = 0xffffff00;
 
-        const uint THEME_BUTTON_ACTIVE_FILL_COLOR = 0xff295c7d;
+        const uint THEME_BUTTON_ACTIVE_FILL_COLOR = 0xff175782;
         const uint THEME_BUTTON_ACTIVE_STROKE_COLOR = 0xffffffff;
         const uint THEME_BUTTON_ACTIVE_TEXT_COLOR = 0xffffffff;
 
@@ -54,7 +54,7 @@ namespace PrometheOSSkinEditor
         const uint THEME_BUTTON_ACTIVE_HOVER_STROKE_COLOR = 0xffffffff;
         const uint THEME_BUTTON_ACTIVE_HOVER_TEXT_COLOR = 0xffffffff;
 
-        const uint THEME_BUTTON_INACTIVE_FILL_COLOR = 0xff295c7d;
+        const uint THEME_BUTTON_INACTIVE_FILL_COLOR = 0xff175782;
         const uint THEME_BUTTON_INACTIVE_STROKE_COLOR = 0xff000000;
         const uint THEME_BUTTON_INACTIVE_TEXT_COLOR = 0xffffffff;
 
